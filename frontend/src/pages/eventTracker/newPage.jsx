@@ -18,13 +18,45 @@ const CustomCalendar = () => {
     const calendar = [];
     let dayCounter = 1;
 
+    // Calculate previous and next month info
+    const prevMonth = month === 0 ? 11 : month - 1;
+    const prevYear = month === 0 ? year - 1 : year;
+    const daysInPrevMonth = new Date(prevYear, prevMonth + 1, 0).getDate();
+    const nextMonth = month === 11 ? 0 : month + 1;
+    const nextYear = month === 11 ? year + 1 : year;
+
     // 6 rows for max coverage
     for (let week = 0; week < 6; week++) {
       const row = [];
 
       for (let day = 0; day < 7; day++) {
         const cellIndex = week * 7 + day;
-        if (cellIndex >= startingDay && dayCounter <= daysInMonth) {
+        // First row: fill with previous month's days before the 1st
+        if (week === 0 && day < startingDay) {
+          const prevDay = daysInPrevMonth - (startingDay - day - 1);
+          row.push(
+            <div
+              key={`prev-${cellIndex}`}
+              className="w-[120px] h-[120px] border border-gray-700 text-gray-500 bg-gray-900 flex flex-col items-center justify-start p-1 rounded-xl"
+            >
+              <span className="font-bold text-lg drop-shadow">{prevDay}</span>
+            </div>
+          );
+        } else if (dayCounter > daysInMonth) {
+          // Last row: fill with next month's days after the last day
+          if (week === 5 || (week < 5 && dayCounter > daysInMonth && row.length < 7)) {
+            const nextDay = dayCounter - daysInMonth;
+            row.push(
+              <div
+                key={`next-${cellIndex}`}
+                className="w-[120px] h-[120px] border border-gray-700 text-gray-500 bg-gray-900 flex flex-col items-center justify-start p-1 rounded-xl"
+              >
+                <span className="font-bold text-lg drop-shadow">{nextDay}</span>
+              </div>
+            );
+            dayCounter++;
+          }
+        } else {
           const isToday =
             dayCounter === today.getDate() &&
             month === today.getMonth() &&
@@ -34,8 +66,7 @@ const CustomCalendar = () => {
             <div
               key={cellIndex}
               className={`
-                relative h-16 rounded-xl flex flex-col items-center justify-start p-1
-                border border-gray-700
+                relative w-[120px] h-[120px] border border-gray-700 rounded-xl flex flex-col items-center justify-start p-1
                 bg-gray-800 text-white
                 shadow-lg
                 transition-all duration-200
@@ -57,11 +88,9 @@ const CustomCalendar = () => {
             </div>
           );
           dayCounter++;
-        } else {
-          row.push(<div key={cellIndex} className="h-16"></div>);
         }
       }
-      calendar.push(<div key={week}>{row}</div>);
+      calendar.push(...row); // Flatten: push all day cells directly
     }
 
     return calendar;
@@ -73,7 +102,7 @@ const CustomCalendar = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto [background:oklch(20.84%_0.008_17.911)] rounded-2xl shadow-2xl p-6">
+    <div className="w-[888px] h-[760px] mx-auto rounded-2xl shadow-2xl p-6">
       <div className="flex items-center justify-between mb-2">
         <button onClick={() => changeMonth(-1)} className="text-blue-600">&lt;</button>
         <h2 className="text-xl font-semibold">
@@ -84,13 +113,13 @@ const CustomCalendar = () => {
 
       <div>
         {/* Weekdays Header */}
-        <div className="grid grid-cols-7 gap-2 mb-2">
+        <div className="grid grid-cols-7 gap-6 mb-2">
           {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
             <div key={day} className="text-center text-gray-400 font-semibold">{day}</div>
           ))}
         </div>
         {/* Calendar Days */}
-        <div className="grid grid-cols-7 gap-2">
+        <div className="grid grid-cols-7 gap-x-10 gap-y-4">
           {generateCalendarDays()}
         </div>
       </div>
