@@ -7,6 +7,7 @@ import {Routes, Route, Navigate} from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import EventTracker from './pages/eventTracker/EventTracker.jsx';
 import Footer from './components/Footer.jsx';
+import GetAllProblem from './pages/Problems/GetAllProblem.jsx';
 const App = () => {
   const { theme } = useThemeStore();
 
@@ -17,6 +18,7 @@ const App = () => {
      
      <Routes>
       <Route path="/" element={<EventTracker />} />
+      <Route path="/problems" element={<GetAllProblem />} />
      </Routes>
      <Footer />
 

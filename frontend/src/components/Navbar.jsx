@@ -14,9 +14,9 @@ export default function Navbar() {
       </div>
       {/* Navigation Links */}
       <div className="flex items-center gap-6">
-        <a href="#" className="text-gray-200 font-semibold hover:text-white transition">Leaderboard</a>
+        <a href="/problems" className="text-gray-200 font-semibold hover:text-white transition">Problems</a>
         <a href="#" className="text-gray-200 font-semibold hover:text-white transition">Question Tracker</a>
-        <a href="#" className="text-orange-500 font-semibold transition border-b-2 border-orange-500 pb-1">Event Tracker</a>
+        <a href="/" className="text-orange-500 font-semibold transition border-b-2 border-orange-500 pb-1">Event Tracker</a>
         <a href="#" className="text-gray-200 font-semibold hover:text-white transition">Profile Tracker</a>
       </div>
       {/* Right Side: Dark Mode Toggle & Avatar */}
