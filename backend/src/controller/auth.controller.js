@@ -116,7 +116,7 @@ export const getProblemList = async (req, res) => {
       query: `query problemsetQuestionList {
         problemsetQuestionList: questionList(
           categorySlug: "",
-          limit: 50,
+          limit: 10000,
           skip: 0,
           filters: {}
         ) {
@@ -214,3 +214,10 @@ export const login = (req, res) => {
   res.json({ message: `signup controller` });
   console.log(`login controller`);
 };
+
+
+// GET http://localhost:3001/api/stats/gfg/username
+// GET http://localhost:3001/api/stats/leetcode/username
+// GET http://localhost:3001/api/stats/codeforces/username
+// GET http://localhost:3001/api/stats/atcoder/username
+// GET http://localhost:3001/api/stats/codechef/username
